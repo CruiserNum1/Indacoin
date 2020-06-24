@@ -3,7 +3,7 @@
   border-radius: 15px;
   box-shadow: 0px 0px 5px 1px #eee;
   width: 800px;
-  height: 450px;
+  height: 460px;
   top: 50%;
   left: 50%;
   position: absolute;
@@ -110,4 +110,12 @@ hr {
   user-select: none !important;
   opacity: .65 !important;
   cursor: default !important;
+}
+
+.card-body .details {
+  font-family: Gilroy;
+  color: red;
+  margin-top: .5rem;
+  text-align: center;
+  display: block;
 }

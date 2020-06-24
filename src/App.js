@@ -24,12 +24,18 @@ class App extends Component {
     }
 
     componentWillMount() {
-        axios.get(GetCurrencies,)
+        axios.get(GetCurrencies)
             .then(res =>
             {
                 this.setState({ currencyList: res.data.result });
             });
 
+        axios.get(ConvertAmount + this.state.selectIn + '/' + this.state.selectOut + '/' + this.state.curIn)
+            .then(res =>
+            {
+                this.setState({ curOut: res.data });
+            });
+        
         axios.get('https://ipapi.co/json/').then(res => this.setState({ countryName: res.data.country_name }) );
     }
 
@@ -49,9 +55,18 @@ class App extends Component {
 
             await axios.get(URL + `${convertFrom}/${convertTo}/${amount}/Develop_1606`)
                 .then(async res => {
-                    await this.setState({
-                        [InputName]: res.data
-                    })
+                    if (res.data === 0.0)
+                    {
+                        await this.setState({
+                            curOut: ''
+                        });
+                    }
+                    else
+                    {
+                        await this.setState({
+                            [InputName]: res.data
+                        })
+                    }
                 });
         }
 
@@ -130,6 +145,9 @@ class App extends Component {
                                     currencyList={this.state.currencyList.filter(cur => cur.withdrawEnabled)}
                                     handleChangeInput={handleCurInput} handleChangeSelect={handleChangeSelect}/>
                     </div>
+                    {this.state.curOut === '' && 
+                        <span className="details">This pair is temporarily unavailable or amount is too small</span>
+                    }
                     <div className="address">
                         <input type="email" name="email" placeholder="Email" onChange={handleChangeInput} />
                     </div>
