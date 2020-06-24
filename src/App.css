@@ -1,0 +1,113 @@
+.card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 0px 5px 1px #eee;
+  width: 800px;
+  height: 450px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+hr {
+  border-color: #fff
+}
+
+/* .card-header {
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 0 10px 0;
+} */
+
+.card-header h3 {
+  margin-left: 50px;
+	line-height: 28px;
+}
+
+.convertValues {
+  margin-top: 20px;
+	display: inline-flex;
+}
+
+.currency-input {
+  width: 400px;
+}
+
+.currency-input>div {
+  margin-left: 50px;
+  border-radius: 1.5rem;
+  margin-top: 0.7rem;
+  overflow: hidden;
+  display: inline-flex;
+  background-color: #f7f9fa;
+}
+
+.currency-input>label {
+  margin-left: 60px;
+}
+
+.currency-input>div>input {
+  padding: 15px;
+  width: 75%;
+  flex: 10;
+  border: 0px solid;
+  background-color: transparent;
+  font-size: 1rem;
+  outline: 0px;
+}
+
+.currency-input>div>select {
+  border: 0px solid ;
+  padding: 5px;
+  width: 25%;
+  flex: 3;
+  background-color: #E5E5E5;
+  outline: 0px;
+}
+
+.currency-input>div>select>option {
+  font-size: 16px;
+}
+
+.card-body .address {
+  width: 700px;
+  margin: 25px auto;
+  border-radius: 1.5rem;
+  background-color: #f7f9fa;
+  overflow: hidden;
+}
+
+.card-body .address>input {
+  width: 100%;
+  padding: 15px;
+  outline: 0px;
+  background-color: transparent;
+  border: 0px solid;
+}
+
+.form-group {
+  display: block;
+  margin-bottom: 15px;
+  margin-left: 60px;
+}
+
+.card-body button {
+  text-align: center;
+  width: 178px;
+  padding: 6px 0;
+  background: #3463F8;
+  border: 0;
+  border-radius: calc(48px / 2);
+  font-size: 24px;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+}
+
+.card-body button:disabled {
+  pointer-events: none !important;
+  user-select: none !important;
+  opacity: .65 !important;
+  cursor: default !important;
+}
