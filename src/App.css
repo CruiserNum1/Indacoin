@@ -3,7 +3,6 @@
   border-radius: 15px;
   box-shadow: 0px 0px 5px 1px #eee;
   width: 800px;
-  height: 460px;
   top: 50%;
   left: 50%;
   position: absolute;
@@ -72,7 +71,7 @@ hr {
 
 .card-body .address {
   width: 700px;
-  margin: 25px auto;
+  margin: 25px auto 0 auto;
   border-radius: 1.5rem;
   background-color: #f7f9fa;
   overflow: hidden;
@@ -88,6 +87,7 @@ hr {
 
 .form-group {
   display: block;
+  margin-top: 10px;
   margin-bottom: 15px;
   margin-left: 60px;
 }

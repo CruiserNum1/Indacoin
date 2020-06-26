@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    ConvertAmount, ConvertAmountOut, PaymentForm, GetCurrencies, CreateTransaction
+    ConvertAmount, ConvertAmountOut, PaymentForm, GetCurrencies, CheckAddress
 } from './constants';
 import CurrencyInput from "./components/CurrencyInput/CurrencyInput";
 import axios from 'axios';
@@ -19,7 +19,17 @@ class App extends Component {
             walletAddress: '',
             agreement: false,
             currencyList: [],
-            countryName: ''
+            countryName: '',
+            errors: {
+                email: {
+                    isValid: false,
+                    errorText: ''
+                },
+                walletAddress: {
+                    isValid: false,
+                    errorText: ''
+                }
+            }
         };
     }
 
@@ -40,6 +50,8 @@ class App extends Component {
     }
 
     render() {
+        const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+
         const handleChangeInput = (e) => {
             this.setState({ [e.target.name]: e.target.value });
         }
@@ -84,7 +96,75 @@ class App extends Component {
                 });
         }
 
-        const handleButtonClick = () => {
+        const handleEmailInput = async (e) => {
+            const value = e.target.value;
+            let emailErrors = this.state.errors.email;
+            await handleChangeInput(e);
+            if (value === '') {
+                emailErrors.errorText = 'Required field';
+                emailErrors.isValid = false;
+                this.setState({
+                    emailErrors
+                });
+                return;
+            }
+            if (validEmailRegex.test(value)) {
+                emailErrors.isValid = true;
+                emailErrors.errorText = '';
+            }
+            else {
+                emailErrors.isValid = false;
+                emailErrors.errorText = 'Incorrect email';
+            }
+            this.setState({
+                emailErrors
+            });
+        }
+
+        const handleAddressInput = async (e) => {
+            const value = e.target.value;
+            let addressErrors = this.state.errors.walletAddress;
+            await handleChangeInput(e);
+            addressErrors.errorText = value === ''
+                                        ? 'Required field'
+                                        : '';
+            this.setState({
+                    addressErrors
+                });
+        }
+
+        const handleButtonClick = async () => {
+            let errorsEmail = this.state.errors.email;
+            let errorsAddress = this.state.errors.walletAddress;
+            
+            if (this.state.email === '') {
+                errorsEmail.errorText = 'Required field';
+                this.setState({ errorsEmail });
+            }
+
+            if (this.state.walletAddress === '') {
+                errorsAddress.errorText = 'Required field';
+                this.setState({ errorsAddress });
+                return;
+            }
+
+            if (!errorsEmail.isValid)
+                return;
+
+            // check wallet address
+            var arr = {
+                address: this.state.walletAddress,
+                currency: this.state.selectOut
+            };
+            var result = await axios.post(CheckAddress, arr)
+                 .then(res => res.data.result);
+
+            if (result === 'not_valid') {
+                errorsAddress.errorText = 'Invalid address';
+                this.setState({ errorsAddress });
+                return;
+            }
+
             const partner = 'Develop_1606';
             const cur_from = this.state.selectIn;
             const cur_to = this.state.selectOut;
@@ -149,17 +229,19 @@ class App extends Component {
                         <span className="details">This pair is temporarily unavailable or amount is too small</span>
                     }
                     <div className="address">
-                        <input type="email" name="email" placeholder="Email" onChange={handleChangeInput} />
+                        <input type="email" name="email" placeholder="Email" onChange={handleEmailInput} />
                     </div>
+                    <span className="details">{this.state.errors.email.errorText}</span>
                     <div className="address">
-                        <input type="text" name="walletAddress" placeholder="Crypto Wallet Address" onChange={handleChangeInput} />
+                        <input type="text" name="walletAddress" placeholder="Crypto Wallet Address" onChange={handleAddressInput} />
                     </div>
+                    <span className="details">{this.state.errors.walletAddress.errorText}</span>
                     <div className="form-group">
                         <input type="checkbox" name="agreement" onChange={(e) => {this.setState({ agreement: e.target.checked })}} />
                         <label>I agree to the <span style={{ cursor: "pointer", color: "#3464f8" }}>Privacy Policy </span> 
                                 and <span style={{ cursor: "pointer", color: "#3464f8" }}>User Agreement</span></label>
                     </div>
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{ textAlign: "center", marginBottom: '30px' }}>
                         <button type="button" disabled={disabled} onClick={handleButtonClick}>Continue</button>
                     </div>
                 </div>
