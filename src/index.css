@@ -1,8 +1,7 @@
 body {
-  background-color: #F6F6F6;
-			width: 100%;
-			height: 100vh;
-			margin: 0px;
-			padding: 0px;
-			font:18px 'Gilroy', sans-serif;
-}
+	background-color: #F6F6F6;
+			  width: 100%;
+			  margin: 0px;
+			  padding: 20px 0px;
+			  font:18px 'Gilroy', sans-serif;
+  }

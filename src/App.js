@@ -224,18 +224,22 @@ class App extends Component {
                         <CurrencyInput labelName="You get" inputName="curOut" selectName="selectOut" value={this.state.curOut}
                                     currencyList={this.state.currencyList.filter(cur => cur.withdrawEnabled)}
                                     handleChangeInput={handleCurInput} handleChangeSelect={handleChangeSelect}/>
+               
                     </div>
                     {this.state.curOut === '' && 
                         <span className="details">This pair is temporarily unavailable or amount is too small</span>
                     }
-                    <div className="address">
-                        <input type="email" name="email" placeholder="Email" onChange={handleEmailInput} />
+                    <div className="block-input">
+                        <div className="address">
+                            <input type="email" name="email" placeholder="Email" onChange={handleEmailInput} />
+                        </div>
+                        <span className="details">{this.state.errors.email.errorText}</span>
+                        
+                        <div className="address">
+                            <input type="text" name="walletAddress" placeholder="Crypto Wallet Address" onChange={handleAddressInput} />
+                        </div>
+                        <span className="details">{this.state.errors.walletAddress.errorText}</span>
                     </div>
-                    <span className="details">{this.state.errors.email.errorText}</span>
-                    <div className="address">
-                        <input type="text" name="walletAddress" placeholder="Crypto Wallet Address" onChange={handleAddressInput} />
-                    </div>
-                    <span className="details">{this.state.errors.walletAddress.errorText}</span>
                     <div className="form-group">
                         <input type="checkbox" name="agreement" onChange={(e) => {this.setState({ agreement: e.target.checked })}} />
                         <label>I agree to the <span style={{ cursor: "pointer", color: "#3464f8" }}>Privacy Policy </span> 
